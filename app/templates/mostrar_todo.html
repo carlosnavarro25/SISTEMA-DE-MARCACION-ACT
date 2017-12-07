@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" type="image/png" href="static/favicon.png"/>
+  <title>MRKT</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+  crossorigin="anonymous"></script>
+  <script>
+    function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('txt').innerHTML =
+      h + ":" + m + ":" + s;
+      var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+  }
+  <!--function tester(){-->
+    <!--return 1;-->
+    <!--}-->
+    <!--$( document ).ready(function() {-->
+      <!--function getTime(fecha){-->
+        <!--fecha = parseFloat(fecha);-->
+        <!--var dateTime = new Date(fecha);-->
+        <!--return dateTime.toISOString();-->
+        <!--}-->
+        <!--$('.entrada').each(function(){-->
+          <!--el = $(this);-->
+          <!--date = getTime( el.text() );-->
+          <!--el.text(date);-->
+          <!--})-->
+        <!--});-->
+      </script>
+      <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+      <div class ="container">
+        <h1 class="jumbotron">
+          MRKT
+          <body onload="startTime()">
+            <div id="txt"></div>
+          </body>
+        </h1>
+        <div class="row">
+          <div class="col-sm-12">
+            <form class="form-inline" action="/super" method="post">
+              <div class="form-group">
+                <label for="email">Nombre:</label>
+                <input type="text" name="nombre" placeholder="Nombre"class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="pwd">Id:</label>
+                <input type="text" name="codigo" placeholder="Codigo" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="pwd">Hora:</label>
+                <input type="datetime-local" name="entrada" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-default" value="Agregar">Submit</button>
+            </form>
+            <br>
+            {% for mensaje in get_flashed_messages() %}
+            {{ mensaje }}
+            {% endfor %}
+            <br>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>LLegada</th>
+              <th>Salida</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for super in supers %}
+            <tr>
+              <td>{{ super.nombre }}</td>
+              <td>{{ super.entrada }}</td>
+              <!--<td>{{ super.salida}}</td>-->
+
+              <td><a href="/delete/{{ super.id }}" class="btn btn-danger"> X </a></td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+  </html>
+
+
+
